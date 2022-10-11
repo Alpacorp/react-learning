@@ -1,23 +1,23 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from "react-router-dom";
 
-import { LoginPage } from '../auth';
-import { CalendarPage } from '../calendar';
-
+import { LoginPage } from "../auth";
+import { CalendarPage } from "../calendar";
+import { getEnvVariables } from "../helpers";
 
 export const AppRouter = () => {
+  const authStatus = "not-authenticated"; // 'authenticated'; // 'not-authenticated';
 
-    const authStatus = 'authenticated'; // 'authenticated'; // 'not-authenticated';
+  console.log("getvariablesevn", getEnvVariables());
 
+  return (
+    <Routes>
+      {authStatus === "not-authenticated" ? (
+        <Route path="/auth/*" element={<LoginPage />} />
+      ) : (
+        <Route path="/*" element={<CalendarPage />} />
+      )}
 
-    return (
-        <Routes>
-            {
-                ( authStatus === 'not-authenticated')  
-                    ? <Route path="/auth/*" element={ <LoginPage /> } />
-                    : <Route path="/*" element={ <CalendarPage /> } />
-            }
-
-            <Route path="/*" element={ <Navigate to="/auth/login" /> } />
-        </Routes>
-    )
-}
+      <Route path="/*" element={<Navigate to="/auth/login" />} />
+    </Routes>
+  );
+};
